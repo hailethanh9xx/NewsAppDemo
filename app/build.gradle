@@ -1,0 +1,111 @@
+plugins {
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.aiden.newsdemo"
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    kapt {
+        correctErrorTypes = true
+    }
+
+    buildFeatures.viewBinding = true
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    packagingOptions {
+        exclude("META-INF/*.kotlin_module")
+    }
+}
+
+apply plugin: "kotlin-kapt"
+dependencies {
+
+    implementation project(':core')
+
+    implementation(Dependencies.kotlin)
+
+    // Coroutines
+    implementation(Coroutines.core)
+    implementation(Coroutines.android)
+
+    // Android
+    implementation(Android.appcompat)
+    implementation(Android.activityKtx)
+    implementation(Android.coreKtx)
+    implementation(Android.navigation)
+    implementation(Android.constraintLayout)
+    implementation(Android.swipeRefreshLayout)
+
+    // Architecture Components
+    implementation(Lifecycle.viewModel)
+    implementation(Lifecycle.liveData)
+
+    // Room components
+    implementation(Room.runtime)
+    implementation(Room.ktx)
+    kapt(Room.compiler)
+
+    // Material Design
+    implementation(Dependencies.materialDesign)
+
+    // Coil-kt
+    implementation(Dependencies.coil)
+
+    // Gson
+    implementation(Dependencies.gson)
+
+    // Retrofit
+    implementation(Retrofit.retrofit)
+    implementation(Retrofit.moshiRetrofitConverter)
+
+    // Moshi
+    implementation(Moshi.moshi)
+    implementation(Moshi.codeGen)
+    kapt(Moshi.codeGen)
+
+    // Hilt + Dagger
+    implementation(Hilt.hiltAndroid)
+    implementation(Hilt.hiltViewModel)
+    kapt(Hilt.daggerCompiler)
+    kapt(Hilt.hiltCompiler)
+
+    // Testing
+    testImplementation(Testing.core)
+    testImplementation(Testing.coroutines)
+    testImplementation(Testing.room)
+    testImplementation(Testing.okHttp)
+    testImplementation(Testing.jUnit)
+
+    // Android Testing
+    androidTestImplementation(Testing.extJUnit)
+    androidTestImplementation(Testing.espresso)
+}

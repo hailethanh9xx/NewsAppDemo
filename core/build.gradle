@@ -1,0 +1,57 @@
+plugins {
+    id 'com.android.library'
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
+}
+
+android {
+    compileSdkVersion 31
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        getByName("debug") {
+            buildConfigField("String", "NEWS_API_KEY", "\"ab4a9b3cb74c40aba0094d53ec81f020\"")
+            buildConfigField("String", "NEWS_COUNTRY_CODE", "\"US\"")
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+apply plugin: "kotlin-kapt"
+dependencies {
+
+    // Room components
+    implementation(Room.runtime)
+    implementation(Room.ktx)
+    kapt(Room.compiler)
+
+    // Gson
+    implementation(Dependencies.gson)
+
+    // Retrofit
+    implementation(Retrofit.retrofit)
+
+    // Hilt
+    implementation(Hilt.hiltAndroid)
+    kapt(Hilt.daggerCompiler    )
+    kapt(Hilt.hiltCompiler)
+
+}
